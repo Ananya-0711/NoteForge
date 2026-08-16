@@ -49,25 +49,3 @@ def get_section(pages, start_index):
         section_pages.append(page)
 
     return section_pages
-
-
-pdf_path = "data/CN/computer-networks-tanenbaum-5th-edition.pdf"
-
-pages = extract_text(pdf_path)
-
-topic = input("Enter a topic: ").strip()
-
-start_index = find_section(pages, topic)
-
-if start_index is None:
-    print("Section not found.")
-else:
-    section_pages = get_section(pages, start_index)
-
-    print("\nSection found.")
-    print("Start page:", section_pages[0]["page"])
-    print("End page:", section_pages[-1]["page"])
-
-    for page in section_pages:
-        print(f"\n--- Page {page['page']} ---")
-        print(page["text"])
