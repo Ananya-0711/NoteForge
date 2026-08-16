@@ -35,11 +35,16 @@ def build_tree(topics):
 
     return root
 
+def get_leaf_topics(nodes):
+    topics = []
 
-syllabus_path = "data/CN/syllabus.txt"
+    for node in nodes:
+        if node["children"]:
+            topics.extend(get_leaf_topics(node["children"]))
+        else:
+            topics.append(node["topic"])
 
-topics = read_syllabus(syllabus_path)
-tree = build_tree(topics)
+    return topics
 
 
 def print_tree(nodes, level=0):
@@ -48,4 +53,10 @@ def print_tree(nodes, level=0):
         print_tree(node["children"], level + 1)
 
 
-print_tree(tree)
+if __name__ == "__main__":
+    syllabus_path = "data/CN/syllabus.txt"
+
+    topics = read_syllabus(syllabus_path)
+    tree = build_tree(topics)
+
+    print_tree(tree)

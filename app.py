@@ -6,6 +6,8 @@ from google import genai
 from read_pdf import extract_text
 from retrieve import find_section, get_section
 
+from read_syllabus import read_syllabus, build_tree, print_tree, get_leaf_topics
+
 load_dotenv()
 
 api_key = os.getenv("GEMINI_API_KEY")
@@ -16,7 +18,20 @@ pdf_path = "data/CN/computer-networks-tanenbaum-5th-edition.pdf"
 
 pages = extract_text(pdf_path)
 
-topic = input("Enter a topic: ").strip()
+syllabus_path = "data/CN/syllabus.txt"
+
+topics = read_syllabus(syllabus_path)
+syllabus_tree = build_tree(topics)
+
+note_topics = get_leaf_topics(syllabus_tree)
+
+print("\n--- NOTE TOPICS ---")
+
+for topic in note_topics:
+    print(topic)
+
+print("\n--- SYLLABUS ---")
+print_tree(syllabus_tree)
 
 start_index = find_section(pages, topic)
 
