@@ -25,19 +25,24 @@ syllabus_tree = build_tree(topics)
 
 note_topics = get_leaf_topics(syllabus_tree)
 
-print("\n--- NOTE TOPICS ---")
+all_notes = []
 
+print("\n--- NOTE TOPICS ---")
 for topic in note_topics:
     print(topic)
 
 print("\n--- SYLLABUS ---")
 print_tree(syllabus_tree)
 
-start_index = find_section(pages, topic)
 
-if start_index is None:
-    print("Section not found.")
-else:
+for topic in note_topics:
+
+    start_index = find_section(pages, topic)
+
+    if start_index is None:
+        print(f"\nSection not found: {topic}")
+        continue
+
     section_pages = get_section(pages, start_index)
 
     textbook_content = "\n\n".join(
@@ -98,5 +103,14 @@ TEXTBOOK CONTENT:
         input=prompt
     )
 
-    print("\n--- NOTES ---")
-    print(interaction.output_text)
+    all_notes.append({
+        "topic": topic,
+        "notes": interaction.output_text
+    })
+
+
+print("\n\n========== UNIT I NOTES ==========")
+
+for item in all_notes:
+    print(f"\n\n========== {item['topic']} ==========\n")
+    print(item["notes"])
